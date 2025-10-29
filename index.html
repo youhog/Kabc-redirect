@@ -172,7 +172,7 @@
    </div>
   </main>
   <script>
-        let redirectTimer = null;
+        // let redirectTimer = null; // <-- 移除
         let countdownTimer = null;
         let currentCountdown = 3;
         let isRedirecting = false;
@@ -219,17 +219,18 @@
                 
                 if (currentCountdown <= 0) {
                     clearInterval(countdownTimer);
-                    executeRedirect();
+                    executeRedirect(); // 只在這裡觸發
                 }
             }, 1000);
             
-            redirectTimer = setTimeout(() => {
-                executeRedirect();
-            }, delaySeconds * 1000);
+            // redirectTimer = setTimeout(() => { // <-- 移除
+            //     executeRedirect();
+            // }, delaySeconds * 1000);
         }
 
         function executeRedirect() {
             if (!isRedirecting) return;
+            isRedirecting = false; // <-- 新增：防止重複觸發
             
             const targetUrl = (window.elementSdk?.config?.target_url || defaultConfig.target_url).trim();
             document.getElementById('status').textContent = '正在跳轉...';
@@ -244,13 +245,13 @@
         }
 
         function redirectNow() {
-            if (redirectTimer) clearTimeout(redirectTimer);
+            // if (redirectTimer) clearTimeout(redirectTimer); // <-- 移除
             if (countdownTimer) clearInterval(countdownTimer);
             executeRedirect();
         }
 
         function cancelRedirect() {
-            if (redirectTimer) clearTimeout(redirectTimer);
+            // if (redirectTimer) clearTimeout(redirectTimer); // <-- 移除
             if (countdownTimer) clearInterval(countdownTimer);
             
             isRedirecting = false;
@@ -304,7 +305,7 @@
             }
 
             // Restart redirect with new settings
-            if (redirectTimer) clearTimeout(redirectTimer);
+            // if (redirectTimer) clearTimeout(redirectTimer); // <-- 移除
             if (countdownTimer) clearInterval(countdownTimer);
             
             // Reset countdown display
@@ -395,5 +396,5 @@
             startRedirect();
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9961769375bf3322',t:'MTc2MTcyODIyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ </body>
 </html>
